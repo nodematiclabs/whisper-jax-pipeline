@@ -1,0 +1,54 @@
+{
+  "components": {
+    "comp-whisper-jax": {
+      "executorLabel": "exec-whisper-jax"
+    }
+  },
+  "deploymentSpec": {
+    "executors": {
+      "exec-whisper-jax": {
+        "container": {
+          "args": [
+            "--audio_file",
+            "gs://BUCKET/example.flac",
+            "--transcript_file",
+            "gs://BUCKET/example.txt"
+          ],
+          "image": "us-central1-docker.pkg.dev/PROJECT/REPOSITORY/IMAGE:TAG",
+          "resources": {
+            "accelerator": {
+              "count": "1",
+              "type": "NVIDIA_TESLA_T4"
+            },
+            "cpuLimit": 4.0,
+            "cpuRequest": 4.0,
+            "memoryLimit": 34.359738368,
+            "memoryRequest": 34.359738368
+          }
+        }
+      }
+    }
+  },
+  "pipelineInfo": {
+    "name": "whisper-jax"
+  },
+  "root": {
+    "dag": {
+      "tasks": {
+        "whisper-jax": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-whisper-jax"
+          },
+          "taskInfo": {
+            "name": "whisper-jax"
+          }
+        }
+      }
+    }
+  },
+  "schemaVersion": "2.1.0",
+  "sdkVersion": "kfp-2.0.0-beta.14"
+}
